@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Loyalty Points System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<h1>Customer Loyalty Points System</h1>
+
+<h2>Add Customer</h2>
+
+<form action="/add_customer" method="POST">
+
+    <input
+        type="text"
+        name="name"
+        placeholder="Enter Name"
+        required>
+
+    <input
+        type="email"
+        name="email"
+        placeholder="Enter Email"
+        required>
+
+    <button type="submit">
+        Add Customer
+    </button>
+
+</form>
+
+<hr>
+
+<h2>Add Purchase</h2>
+
+<form action="/add_points" method="POST">
+
+    <select name="customer_id" required>
+
+        {% for customer in customers %}
+        <option value="{{ customer.id }}">
+            {{ customer.name }}
+        </option>
+        {% endfor %}
+
+    </select>
+
+    <input
+        type="number"
+        name="spend"
+        placeholder="Amount Spent"
+        required>
+
+    <button type="submit">
+        Add Purchase
+    </button>
+
+</form>
+
+<hr>
+
+<h2>Customer Summary</h2>
+
+<table>
+
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Total Points</th>
+    </tr>
+
+    {% for customer in customers %}
+    <tr>
+        <td>{{ customer.name }}</td>
+        <td>{{ customer.email }}</td>
+        <td>{{ customer.total_points }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+<hr>
+
+<h2>Transaction History</h2>
+
+<table>
+
+    <tr>
+        <th>Customer ID</th>
+        <th>Spend Amount</th>
+        <th>Points Earned</th>
+        <th>Bonus Points</th>
+    </tr>
+
+    {% for transaction in transactions %}
+    <tr>
+        <td>{{ transaction.customer_id }}</td>
+        <td>₹{{ transaction.spend }}</td>
+        <td>{{ transaction.points }}</td>
+        <td>{{ transaction.bonus }}</td>
+    </tr>
+    {% endfor %}
+
+</table>
+
+</body>
+</html>
